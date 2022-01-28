@@ -1,0 +1,11 @@
+.btnLogin, #btnLogin{
+    background-color: #8e3df1;
+    border-color: #8e3df1;
+}
+.btnLogin:hover, #btnLogin:hover{
+    background-color: #7433c3;
+    border-color: #8e3df1;
+}
+.forgetPassword{
+    color: #8e3df1;
+}
