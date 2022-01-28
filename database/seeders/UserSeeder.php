@@ -31,5 +31,13 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'created_at' => date('Y-m-d H:i:s'),
         ]);
+        DB::table('users')->insert([
+            'perfil_id' => 1,
+            'nome' => 'Jorge',
+            'apelido' => 'Marry',
+            'email' => 'jorge@gmail.com',
+            'password' => Hash::make('password'),
+            'created_at' => date('Y-m-d H:i:s'),
+        ]);
     }
 }

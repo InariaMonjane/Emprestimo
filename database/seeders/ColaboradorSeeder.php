@@ -25,5 +25,10 @@ class ColaboradorSeeder extends Seeder
             'filiacao_id' => 1,
             'created_at' => date('Y-m-d H:i:s'),
         ]);
+        DB::table('colaboradors')->insert([
+            'user_id' => 3,
+            'filiacao_id' => 1,
+            'created_at' => date('Y-m-d H:i:s'),
+        ]);
     }
 }
