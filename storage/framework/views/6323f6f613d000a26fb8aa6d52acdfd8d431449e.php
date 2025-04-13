@@ -1,15 +1,14 @@
 
 
 <?php $__env->startSection('content'); ?>
-<section class="content-header py-2">
-  <div class="container-fluid">
-    <div class="row mb-0">
-      <div class="col-sm-6">
-        <h3>Abertura de conta</h3>
-      </div>
-    </div>
+
+<div class="card rounded-0 container-fluid">
+  <div class="card-footer row">
+    <div class="col-6 col-md-7 text-right"><span class="font-weight-bold">Abertura de conta</span></div>
+    <div class="col-6 col-md-5 text-right"><span class="font-weight-bold">Data : </span><?php echo e(date('d-m-Y')); ?></div>
   </div>
-</section>
+</div>
+
 <div class="container-fluid">
   <div class="row">
     <div class="col-12">
@@ -17,27 +16,9 @@
         <div class="card-header">
           <h3 class="card-title"><i class="fa fa-desktop" aria-hidden="true"></i> Dados da conta</h3>
         </div>
-        
-        <?php if(Session::has('DBError')): ?>
-        <div class="alert alert-danger mt-2 mx-3" role="alert">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <p class="m-0 text-center"><?php echo e(Session::get('DBError')); ?></p>
-        </div>
-        <?php endif; ?>
-        
-        <?php if(Session::has('DBSuccess')): ?>
-        <div class="alert alert-success mt-2 mx-3" role="alert">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <p class="m-0 text-center"><?php echo e(Session::get('DBSuccess')); ?></p>
-        </div>
-        <?php endif; ?>
         <form role="form" method="post" action="<?php echo e(route('emprestimo.store')); ?>">
           <?php echo csrf_field(); ?>
-          <div class="card-body">
+          <div class="card-body pb-0">
             <div class="row">
               <div class="form-group col-6 col-md-3 mb-1">
                 <label for="inputNumero">Nº. Cliente</label>
@@ -111,7 +92,7 @@ unset($__errorArgs, $__bag); ?>"
                       autocomplete="off"
                       id="inputReferencia"
                       disabled>
-                      <input type="hidden" name="referencia" value="<?php echo e($cliente['id']); ?>">
+                      <input type="hidden" name="referencia" value="<?php echo e($cliente->emprestimos()->get()->count()); ?>">
                   <?php else: ?>
                     <input class="form-control form-control-sm <?php $__errorArgs = ['referencia'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -127,6 +108,7 @@ unset($__errorArgs, $__bag); ?>"
                       autocomplete="off"
                       id="inputReferencia"
                       disabled>
+                      <input type="hidden" name="referencia">
                   <?php endif; ?>
                   <?php $__errorArgs = ['referencia'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -172,7 +154,9 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                 </div>
-              </div>
+              </div>              
+            </div>
+            <div class="row">
               <div class="form-group col-12 col-md-6 mb-1">
                 <label for="inputNome">Nome</label>
                 <div class="input-group">
@@ -232,13 +216,14 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                 </div>
-              </div>
-
-              <div class="form-group col-12 col-md-4 mb-1">
+              </div>              
+            </div>
+            <div class="row">
+              <div class="form-group col-12 col-md-4">
                 <label for="inputEmprestimo">Valor solicitado</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <span class="input-group-text btnLogin text-white"><i class="fas fa-dollar-sign"></i></span>
+                    <span class="input-group-text bg-dark"><i class="fas fa-dollar-sign"></i></span>
                   </div>
                   <input type="number"
                     class="form-control form-control-sm <?php $__errorArgs = ['emprestimo'];
@@ -263,12 +248,11 @@ endif;
 unset($__errorArgs, $__bag); ?>
                 </div>
               </div>
-              
-              <div class="form-group col-12 col-md-4 mb-1">
+              <div class="form-group col-12 col-md-4">
                 <label for="inputPrestacoes">Nº Prestações</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <span class="input-group-text btnLogin text-white"><i class="fa fa-plus"></i></span>
+                    <span class="input-group-text bg-dark"><i class="fa fa-plus"></i></span>
                   </div>
                   <input type="number"
                     class="form-control form-control-sm <?php $__errorArgs = ['prestacoes'];
@@ -293,12 +277,11 @@ endif;
 unset($__errorArgs, $__bag); ?>
                 </div>
               </div>
-              
-              <div class="form-group col-12 col-md-2 mb-1">
+              <div class="form-group col-12 col-md-2">
                 <label for="inputTaxa">Taxa</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <span class="input-group-text btnLogin text-white"><i class="fa fa-percent"></i></span>
+                    <span class="input-group-text bg-dark"><i class="fa fa-percent"></i></span>
                   </div>
                   <input type="number"
                     class="form-control form-control-sm <?php $__errorArgs = ['taxa'];
@@ -323,11 +306,11 @@ endif;
 unset($__errorArgs, $__bag); ?>
                 </div>
               </div>
-              <div class="form-group col-12 col-md-2 mb-1">
+              <div class="form-group col-12 col-md-2">
                 <label for="inputDias">Dias</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <span class="input-group-text btnLogin text-white"><i class="fa fa-calendar-check"></i></span>
+                    <span class="input-group-text bg-dark"><i class="fa fa-calendar-check"></i></span>
                   </div>
                   <input type="number"
                     class="form-control form-control-sm <?php $__errorArgs = ['dias'];
@@ -351,114 +334,43 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                 </div>
-              </div>
-              <div class="form-group col-12 col-md-6 mb-1">
-                <label for="inputGarantias">Garantias</label>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text btnLogin text-white"><i class="fa fa-building"></i></span>
+              </div>            
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-6 input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-white font-weight-bold">Quantidade das Garantias</span>
                   </div>
-                  <input type="text"
-                    class="form-control form-control-sm <?php $__errorArgs = ['garantias'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>"
-                    id="inputGarantias" placeholder="Garantias" name="garantias" value="<?php echo e(old('garantias')); ?>"
-                    autocomplete="off">
-                  <?php $__errorArgs = ['garantias'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                  <span class="error invalid-feedback"><?php echo e($message); ?></span>
-                  <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                </div>
-              </div>
-              <div class="form-group col-12 col-md-3 mb-1">
-                <label for="inputAquisicao">Data de aquisição</label>
-                <div class="input-group">
-                  <!--div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fa fa-user"></i></span>
-                  </div-->
-                  <input type="date"
-                    class="form-control form-control-sm <?php $__errorArgs = ['aquisicao'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>"
-                    id="inputAquisicao" placeholder="Data de aquisição" name="aquisicao"
-                    value="<?php echo e(old('aquisicao')); ?>" autocomplete="off">
-                  <?php $__errorArgs = ['aquisicao'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                  <span class="error invalid-feedback"><?php echo e($message); ?></span>
-                  <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                </div>
-              </div>
-              <div class="form-group col-12 col-md-3 mb-1">
-                <label for="inputPreco">Preço avaliado</label>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text btnLogin text-white"><i class="fas fa-dollar-sign"></i></span>
-                  </div>
-                  <input type="number"
-                    class="form-control form-control-sm <?php $__errorArgs = ['preco'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>"
-                    id="inputPreco" placeholder="Preço avaliado" name="preco"
-                    value="<?php echo e(old('preco')); ?>" autocomplete="off">
-                  <?php $__errorArgs = ['preco'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                  <span class="error invalid-feedback"><?php echo e($message); ?></span>
-                  <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
+                <input type="number" class="form-control form-control-sm"
+                      placeholder="" name="inputGarantias"
+                      autocomplete="off">
+                <div class="input-group-append">
+                  <button class="btn btn-dark" id="btnGarantias" type="button">Criar tabela</button>
                 </div>
               </div>
             </div>
+            <div class="table-responsive" style="max-height: 300px;">
+              <table class="table table-sm table-hover table-head-fixed projects text-nowrap">
+                <tbody id="tableGarantias" class="table-bordered"></tbody>
+              </table>            
+            </div>
+            <div class="table-responsive" style="max-height: 300px;">
+              <table class="table table-sm table-hover table-head-fixed projects text-nowrap">
+                <thead>
+                  <tr>
+                    <th style="width: 14%">Capital</th>
+                    <th style="width: 10%">Taxa</th>
+                    <th style="width: 14%">Juros</th>
+                    <th style="width: 10%">Capital</th>
+                    <th style="width: 14%">1ª opção</th>
+                    <th style="width: 14%">2ª opção</th>
+                    <th style="width: 14%" class="">Data</th>
+                  </tr>
+                </thead>
+                <tbody id="linhas" class="table-bordered"></tbody>
+              </table>            
+            </div>
           </div>
-
-          <div class="card-body table-responsive pt-0">
-            <table class="table table-sm table-hover table-head-fixed projects text-nowrap">
-              <thead>
-                <tr>
-                  <th style="width: 14%">Capital</th>
-                  <th style="width: 10%">Taxa</th>
-                  <th style="width: 14%">Juros</th>
-                  <th style="width: 10%">Capital</th>
-                  <th style="width: 14%">1ª opção</th>
-                  <th style="width: 14%">2ª opção</th>
-                  <th style="width: 14%" class="">Data</th>
-                </tr>
-              </thead>
-              <tbody id="linhas" class="table-bordered"></tbody>
-            </table>
-          </div>
-
           <div class="card-footer">
             <div class="row d-flex justify-content-around">
               <div class="col-4">

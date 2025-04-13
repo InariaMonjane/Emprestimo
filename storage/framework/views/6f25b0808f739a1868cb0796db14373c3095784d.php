@@ -5,13 +5,8 @@
  <div class="card rounded-0 container-fluid">
     <div class="card-footer row">
       <div class="col-6 text-right"><span class="font-weight-bold">Caixa</span></div>
-      <div class="col-6 text-right"><span class="font-weight-bold">Data : </span><?php echo date('d-m-Y') ?></div>
-    </div>
-    <!--div class="row">
-        <div class="col-12 text-center">
-            <p class="font-weight-bold py-2 m-0">Atenção!!! Existe <span class="text-danger">MULTA</span> por pagar!!!</p>
-        </div>
-    </div-->     
+      <div class="col-6 text-right"><span class="font-weight-bold">Data : </span><?php echo e(date('d-m-Y')); ?></div>
+    </div>   
   </div>
 
 <div class="container-fluid">
@@ -20,17 +15,8 @@
             <div class="card card-dark">
                 <div class="card-header">
                     <h3 class="card-title"><i class="fa fa-desktop" aria-hidden="true"></i> Dados da conta</h3>
-                </div>
-                
-                <?php if(Session::has('DBSuccess')): ?>
-                <div class="alert alert-success mt-2 mx-3" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <p class="m-0 text-center"><?php echo e(Session::get('DBSuccess')); ?></p>
-                </div>
-                <?php endif; ?>
-                <div class="alert alert-danger mb-1 py-1 px-1 font-weight-light text-black d-none" id="messageBox">
+                </div>                
+                <div class="alert alert-danger mb-0 my-1 mx-3 py-1 font-weight-light text-center d-none" id="messageBox">
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -38,14 +24,14 @@
                 </div>
                 <form role="form">
                     <?php echo csrf_field(); ?>
-                    <div class="card-body pt-3">
+                    <div class="card-body pt-2">
                         <div class="form-row">
                             <div class="form-group col-12 col-md-6 mb-1">
                                 <label for="inputNumeroConta">Nº. Conta</label>
                                 <div class="input-group input-group-sm mb-0">
                                     <?php if(isset($emprestimo)): ?>
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text btnLogin text-white"><i class="fas fa-info"></i></span>
+                                            <span class="input-group-text bg-dark"><i class="fas fa-info"></i></span>
                                         </div>
                                         <input type="hidden" name="conta" value="<?php echo e($emprestimo->id); ?>">
                                         <input class="form-control form-control-sm <?php $__errorArgs = ['conta'];
@@ -93,7 +79,7 @@ unset($__errorArgs, $__bag); ?>
                                 <label for="inputTaxa">Taxa de Juro da Multa</label>
                                 <div class="input-group input-group-sm">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text btnLogin text-white"><i class="fa fa-percent"></i></span>
+                                        <span class="input-group-text bg-dark"><i class="fa fa-percent"></i></span>
                                     </div>
                                     <input type="number"
                                         class="form-control form-control-sm <?php $__errorArgs = ['taxa'];
@@ -124,7 +110,7 @@ unset($__errorArgs, $__bag); ?>
                                 <label for="inputPrestacao">Nº Prestação</label>
                                 <div class="input-group input-group-sm">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text btnLogin text-white"><i class="fa fa-plus"></i></span>
+                                        <span class="input-group-text bg-dark"><i class="fa fa-plus"></i></span>
                                     </div>
                                     <input type="number"
                                         class="form-control form-control-sm <?php $__errorArgs = ['prestacao'];
@@ -153,7 +139,7 @@ unset($__errorArgs, $__bag); ?>
                                 <label for="inputDias">Dias de Atraso</label>
                                 <div class="input-group input-group-sm">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text btnLogin text-white"><i class="fa fa-calendar-check"></i></span>
+                                        <span class="input-group-text bg-dark"><i class="fa fa-calendar-check"></i></span>
                                     </div>
                                     <input type="number"
                                         class="form-control form-control-sm <?php $__errorArgs = ['dias'];
@@ -182,7 +168,7 @@ unset($__errorArgs, $__bag); ?>
                                 <label for="inputMulta">Multa. Dia</label>
                                 <div class="input-group input-group-sm">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text btnLogin text-white"><i class="fas fa-dollar-sign"></i></span>
+                                        <span class="input-group-text bg-dark"><i class="fas fa-dollar-sign"></i></span>
                                     </div>
                                     <input type="number"
                                         class="form-control form-control-sm <?php $__errorArgs = ['multa'];
@@ -193,7 +179,7 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>"
-                                        id="inputMulta" name="multa"
+                                        id="inputMulta"
                                         value="<?php echo e((isset($emprestimo) && $emprestimo->actual != null) ? $emprestimo->Actual->multa : ''); ?>" autocomplete="off" disabled="disabled">
                                     <?php $__errorArgs = ['multa'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -211,7 +197,7 @@ unset($__errorArgs, $__bag); ?>
                                 <label for="inputVPagar">Valor a pagar</label>
                                 <div class="input-group input-group-sm">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text btnLogin text-white"><i class="fas fa-dollar-sign"></i></span>
+                                        <span class="input-group-text bg-dark"><i class="fas fa-dollar-sign"></i></span>
                                     </div>
                                     <input type="number"
                                         class="form-control form-control-sm <?php $__errorArgs = ['vPagar'];
@@ -327,7 +313,7 @@ unset($__errorArgs, $__bag); ?>
                             </div>
                             <div class="form-group col-md-12 mb-0" id="submeter">
                                 <?php if(isset($emprestimo) && $emprestimo->actual != null): ?>
-                                    <button class="btn btn-success btn-sm btn-block text-white" data-cat_prestacaoid=<?php echo e((isset($emprestimo)) ? $emprestimo->Actual->id : ''); ?> data-cat_prestacaovalor=<?php echo e((isset($emprestimo)) ? $emprestimo->Actual->opcao1 : ''); ?> data-cat_prestacaonumero=<?php echo e((isset($emprestimo)) ? $emprestimo->Actual->numero : ''); ?> data-toggle="modal" data-target="#pagarPrestacao"><i class="far fa-dot-circle" aria-hidden="true"></i> Pagar valor da prestação</button>
+                                    <button class="btn btn-success btn-sm btn-block text-white" data-cat_prestacaoid=<?php echo e($emprestimo->Actual->id); ?> data-cat_prestacaomulta=<?php echo e($emprestimo->Actual->multa); ?> data-cat_prestacaovalor=<?php echo e($emprestimo->Actual->opcao1); ?> data-cat_prestacaonumero=<?php echo e($emprestimo->Actual->numero); ?> data-toggle="modal" data-target="#pagarPrestacao"><i class="far fa-dot-circle" aria-hidden="true"></i> Pagar valor da prestação</button>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -410,6 +396,7 @@ unset($__errorArgs, $__bag); ?>
                             <div class="modal-body">
                                 <p>Clique em confirmar, se e somente se, realmente recebeu do cliente o valor de <span id="valor"></span>,00MT referente ao pagamento da <span id="numero"></span>ª prestação!</p>
                                 <input type="hidden" name="prestacao_id" id="prestacao_id" value="">
+                                <input type="hidden" name="multa" id="multa_id" value="">
                             </div>
                             <div class="modal-footer justify-content-between">
                                 <button type="submit" class="btn btn-success btn-outline-light">Confirmar</button>

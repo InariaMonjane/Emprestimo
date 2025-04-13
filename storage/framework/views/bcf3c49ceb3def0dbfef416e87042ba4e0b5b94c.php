@@ -1,45 +1,19 @@
 
 
 <?php $__env->startSection('content'); ?>
-    <!-- Header -->
-    <section class="content-header py-2">
-      <div class="container-fluid">
-        <div class="row mb-0">
-          <div class="col-sm-6">
-            <h5 class="mb-0">Criar Entidade</h5>
-          </div>
-        </div>
-      </div><!-- /.Header -->
-    </section>
-    <!-- Main -->
+    <div class="card rounded-0 container-fluid">
+      <div class="card-footer row">
+        <div class="col-6 col-md-7 text-right"><span class="font-weight-bold">Criar Entidade</span></div>
+        <div class="col-6 col-md-5 text-right"><span class="font-weight-bold">Data : </span><?php echo e(date('d-m-Y')); ?></div>
+      </div>
+    </div>  
     <div class="container-fluid">
         <div class="row">
-          <!-- left column -->
           <div class="col-md-12">
-            <!-- general form elements -->
             <div class="card card-dark">
               <div class="card-header">
                 <h3 class="card-title"><i class="fa fa-user-plus" aria-hidden="true"></i> Entidade</h3>
               </div>
-              <!-- /.card-header -->
-              
-              <?php if(Session::has('DBError')): ?>
-                <div class="alert alert-danger mt-2 mx-3" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                  <p class="m-0 text-center"><?php echo e(Session::get('DBError')); ?></p>
-                </div>
-              <?php endif; ?>
-              
-              <?php if(Session::has('DBSuccess')): ?>
-                <div class="alert alert-success mt-2 mx-3" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                  <p class="m-0 text-center"><?php echo e(Session::get('DBSuccess')); ?></p>
-                </div>
-              <?php endif; ?>
               <!-- form start -->
               <form role="form" method="post" action="<?php echo e(route('entidade.store')); ?>">
                 <?php echo csrf_field(); ?>
@@ -49,7 +23,7 @@
                       <label for="inputEntidade">Tipo de Entidade</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <div class="input-group-text btnLogin text-white">
+                          <div class="input-group-text bg-dark">
                             <i class="fa fa-address-book" aria-hidden="true"></i>
                           </div>
                         </div>
@@ -87,7 +61,7 @@ unset($__errorArgs, $__bag); ?>
                       <label for="inputEmail">E-mail</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="fa fa-envelope"></i></span>
+                          <span class="input-group-text bg-dark"><i class="fa fa-envelope"></i></span>
                         </div>
                         <input type="email" 
                                 class="form-control form-control-sm <?php $__errorArgs = ['email'];
@@ -122,7 +96,7 @@ unset($__errorArgs, $__bag); ?>
                       <label for="inputProcesso">Processo</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <div class="input-group-text btnLogin text-white">
+                          <div class="input-group-text bg-dark">
                             <i class="fa fa-address-book" aria-hidden="true"></i>
                           </div>
                         </div>
@@ -160,7 +134,7 @@ unset($__errorArgs, $__bag); ?>
                       <label for="inputSolicitacao">Solicitação</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <div class="input-group-text btnLogin text-white">
+                          <div class="input-group-text bg-dark">
                             <i class="fa fa-address-book" aria-hidden="true"></i>
                           </div>
                         </div>
@@ -197,7 +171,7 @@ unset($__errorArgs, $__bag); ?>
                       <label for="inputSituacao">Situação</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <div class="input-group-text btnLogin text-white">
+                          <div class="input-group-text bg-dark">
                             <i class="fa fa-address-book" aria-hidden="true"></i>
                           </div>
                         </div>
@@ -236,7 +210,7 @@ unset($__errorArgs, $__bag); ?>
                       <label for="inputNome">Nome</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="fa fa-user"></i></span>
+                          <span class="input-group-text bg-dark"><i class="fa fa-user"></i></span>
                         </div>
                         <input type="text" 
                                 class="form-control form-control-sm <?php $__errorArgs = ['nome'];
@@ -268,7 +242,7 @@ unset($__errorArgs, $__bag); ?>
                       <label for="inputApelido">Apelido</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="fa fa-user"></i></span>
+                          <span class="input-group-text bg-dark"><i class="fa fa-user"></i></span>
                         </div>
                         <input type="text" 
                                 class="form-control form-control-sm <?php $__errorArgs = ['apelido'];
@@ -303,7 +277,7 @@ unset($__errorArgs, $__bag); ?>
                       <label for="inputNuit">Data de nascimento</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="fa fa-birthday-cake"></i></span>
+                          <span class="input-group-text bg-dark"><i class="fa fa-birthday-cake"></i></span>
                         </div>
                         <input type="date" 
                                 class="form-control form-control-sm <?php $__errorArgs = ['aniversario'];
@@ -335,7 +309,7 @@ unset($__errorArgs, $__bag); ?>
                       <label for="inputNome">BI</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="fa fa-id-badge"></i></span>
+                          <span class="input-group-text bg-dark"><i class="fa fa-id-badge"></i></span>
                         </div>
                         <input type="text" 
                                 class="form-control form-control-sm <?php $__errorArgs = ['bi'];
@@ -367,7 +341,7 @@ unset($__errorArgs, $__bag); ?>
                       <label for="inputValidade">Validade</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="far fa-calendar-alt"></i></span>
+                          <span class="input-group-text bg-dark"><i class="far fa-calendar-alt"></i></span>
                         </div>
                         <input type="date" 
                                 class="form-control form-control-sm <?php $__errorArgs = ['validade'];
@@ -401,7 +375,7 @@ unset($__errorArgs, $__bag); ?>
                       <label for="inputNuit">Nuit</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="fa fa-id-card"></i></span>
+                          <span class="input-group-text bg-dark"><i class="fa fa-id-card"></i></span>
                         </div>
                         <input type="number" 
                                 class="form-control form-control-sm <?php $__errorArgs = ['nuit'];
@@ -433,7 +407,7 @@ unset($__errorArgs, $__bag); ?>
                       <label for="inputTelefone1">Telefone 1</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="fas fa-mobile"></i></span>
+                          <span class="input-group-text bg-dark"><i class="fas fa-mobile"></i></span>
                         </div>
                         <input type="number" 
                           class="form-control form-control-sm <?php $__errorArgs = ['telefone_1'];
@@ -465,7 +439,7 @@ unset($__errorArgs, $__bag); ?>
                       <label for="inputTelefone2">Telefone 2</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="fas fa-tty"></i></span>
+                          <span class="input-group-text bg-dark"><i class="fas fa-tty"></i></span>
                         </div>
                         <input type="number" 
                                 class="form-control form-control-sm <?php $__errorArgs = ['telefone_2'];
@@ -499,7 +473,7 @@ unset($__errorArgs, $__bag); ?>
                       <label for="inputGenero">Genero</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="fa fa-user"></i></span>
+                          <span class="input-group-text bg-dark"><i class="fa fa-user"></i></span>
                         </div>
                         <select 
                               class="form-control form-control-sm <?php $__errorArgs = ['genero'];
@@ -535,7 +509,7 @@ unset($__errorArgs, $__bag); ?>
                       <label for="inputEndereco">Endereço</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="fa fa-street-view"></i></span>
+                          <span class="input-group-text bg-dark"><i class="fa fa-street-view"></i></span>
                         </div>
                         <input type="text" 
                                 class="form-control form-control-sm <?php $__errorArgs = ['endereco'];
@@ -569,7 +543,7 @@ unset($__errorArgs, $__bag); ?>
                       <label for="inputBanco">Banco</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="fa fa-university"></i></span>
+                          <span class="input-group-text bg-dark"><i class="fa fa-university"></i></span>
                         </div>
                         <input type="text" 
                                 class="form-control form-control-sm <?php $__errorArgs = ['banco'];
@@ -601,7 +575,7 @@ unset($__errorArgs, $__bag); ?>
                       <label for="inputConta">Número da conta</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="fa fa-credit-card"></i></span>
+                          <span class="input-group-text bg-dark"><i class="fa fa-credit-card"></i></span>
                         </div>
                         <input type="number" 
                                 class="form-control form-control-sm <?php $__errorArgs = ['conta'];
@@ -635,7 +609,7 @@ unset($__errorArgs, $__bag); ?>
                       <label for="inputObservacao">Observação</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="fas fa-info"></i></span>
+                          <span class="input-group-text bg-dark"><i class="fas fa-info"></i></span>
                         </div>
                         <input type="text" 
                                 class="form-control form-control-sm <?php $__errorArgs = ['observacao'];
@@ -670,7 +644,7 @@ unset($__errorArgs, $__bag); ?>
                   <div class="row d-flex justify-content-around">
                     <div class="col-4">
                       <div class="form-group mb-0">
-                      <button type="submit" class="btn btnLogin text-white">Registar <i class="fa fa-user-plus" aria-hidden="true"></i></button>
+                      <button type="submit" class="btn bg-dark">Registar <i class="fa fa-user-plus" aria-hidden="true"></i></button>
                       </div>
                     </div>
                     <div class="col-4">
@@ -693,4 +667,4 @@ unset($__errorArgs, $__bag); ?>
         </div>
     </div>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /media/cumbe/Multimedia/Di Maria/emprestimos/emprestimos/resources/views/entidade/create.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /media/cumbe/Multimedia/Di Maria/emprestimos/emprestimos/resources/views/balcao/entidade/create.blade.php ENDPATH**/ ?>

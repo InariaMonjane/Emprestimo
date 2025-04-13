@@ -13,9 +13,22 @@ class Emprestimo extends Model
     {
         return $this->belongsTo(Cliente::class);
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
     public function prestacoes()
     {
         return $this->hasMany(Prestacao::class);
+    }
+    public function getCandeleteAttribute()
+    {
+        $prestacao = Prestacao::where('emprestimo_id', $this->attributes['id'])->where('estado', 'Pago')->first();
+        if (isset($prestacao)) {
+            return false;
+        }else{
+            return true;
+        }
     }
     public function getActualAttribute()
     {

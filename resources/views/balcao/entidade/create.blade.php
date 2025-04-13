@@ -1,45 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
-    <!-- Header -->
-    <section class="content-header py-2">
-      <div class="container-fluid">
-        <div class="row mb-0">
-          <div class="col-sm-6">
-            <h5 class="mb-0">Criar Entidade</h5>
-          </div>
-        </div>
-      </div><!-- /.Header -->
-    </section>
-    <!-- Main -->
+    <div class="card rounded-0 container-fluid">
+      <div class="card-footer row">
+        <div class="col-6 col-md-7 text-right"><span class="font-weight-bold">Criar Entidade</span></div>
+        <div class="col-6 col-md-5 text-right"><span class="font-weight-bold">Data : </span>{{ date('d-m-Y') }}</div>
+      </div>
+    </div>  
     <div class="container-fluid">
         <div class="row">
-          <!-- left column -->
           <div class="col-md-12">
-            <!-- general form elements -->
             <div class="card card-dark">
               <div class="card-header">
                 <h3 class="card-title"><i class="fa fa-user-plus" aria-hidden="true"></i> Entidade</h3>
               </div>
-              <!-- /.card-header -->
-              {{-- Data Base --}}
-              @if(Session::has('DBError'))
-                <div class="alert alert-danger mt-2 mx-3" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                  <p class="m-0 text-center">{{ Session::get('DBError') }}</p>
-                </div>
-              @endif
-              {{-- Data Base --}}
-              @if(Session::has('DBSuccess'))
-                <div class="alert alert-success mt-2 mx-3" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                  <p class="m-0 text-center">{{ Session::get('DBSuccess') }}</p>
-                </div>
-              @endif
               <!-- form start -->
               <form role="form" method="post" action="{{ route('entidade.store') }}">
                 @csrf
@@ -49,7 +23,7 @@
                       <label for="inputEntidade">Tipo de Entidade</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <div class="input-group-text btnLogin text-white">
+                          <div class="input-group-text bg-dark">
                             <i class="fa fa-address-book" aria-hidden="true"></i>
                           </div>
                         </div>
@@ -73,7 +47,7 @@
                       <label for="inputEmail">E-mail</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="fa fa-envelope"></i></span>
+                          <span class="input-group-text bg-dark"><i class="fa fa-envelope"></i></span>
                         </div>
                         <input type="email" 
                                 class="form-control form-control-sm @error('email') is-invalid @enderror"  
@@ -94,7 +68,7 @@
                       <label for="inputProcesso">Processo</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <div class="input-group-text btnLogin text-white">
+                          <div class="input-group-text bg-dark">
                             <i class="fa fa-address-book" aria-hidden="true"></i>
                           </div>
                         </div>
@@ -118,7 +92,7 @@
                       <label for="inputSolicitacao">Solicitação</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <div class="input-group-text btnLogin text-white">
+                          <div class="input-group-text bg-dark">
                             <i class="fa fa-address-book" aria-hidden="true"></i>
                           </div>
                         </div>
@@ -141,7 +115,7 @@
                       <label for="inputSituacao">Situação</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <div class="input-group-text btnLogin text-white">
+                          <div class="input-group-text bg-dark">
                             <i class="fa fa-address-book" aria-hidden="true"></i>
                           </div>
                         </div>
@@ -166,7 +140,7 @@
                       <label for="inputNome">Nome</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="fa fa-user"></i></span>
+                          <span class="input-group-text bg-dark"><i class="fa fa-user"></i></span>
                         </div>
                         <input type="text" 
                                 class="form-control form-control-sm @error('nome') is-invalid @enderror" 
@@ -184,7 +158,7 @@
                       <label for="inputApelido">Apelido</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="fa fa-user"></i></span>
+                          <span class="input-group-text bg-dark"><i class="fa fa-user"></i></span>
                         </div>
                         <input type="text" 
                                 class="form-control form-control-sm @error('apelido') is-invalid @enderror"
@@ -205,7 +179,7 @@
                       <label for="inputNuit">Data de nascimento</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="fa fa-birthday-cake"></i></span>
+                          <span class="input-group-text bg-dark"><i class="fa fa-birthday-cake"></i></span>
                         </div>
                         <input type="date" 
                                 class="form-control form-control-sm @error('aniversario') is-invalid @enderror" 
@@ -223,7 +197,7 @@
                       <label for="inputNome">BI</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="fa fa-id-badge"></i></span>
+                          <span class="input-group-text bg-dark"><i class="fa fa-id-badge"></i></span>
                         </div>
                         <input type="text" 
                                 class="form-control form-control-sm @error('bi') is-invalid @enderror" 
@@ -241,7 +215,7 @@
                       <label for="inputValidade">Validade</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="far fa-calendar-alt"></i></span>
+                          <span class="input-group-text bg-dark"><i class="far fa-calendar-alt"></i></span>
                         </div>
                         <input type="date" 
                                 class="form-control form-control-sm @error('validade') is-invalid @enderror" 
@@ -261,7 +235,7 @@
                       <label for="inputNuit">Nuit</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="fa fa-id-card"></i></span>
+                          <span class="input-group-text bg-dark"><i class="fa fa-id-card"></i></span>
                         </div>
                         <input type="number" 
                                 class="form-control form-control-sm @error('nuit') is-invalid @enderror"  
@@ -279,7 +253,7 @@
                       <label for="inputTelefone1">Telefone 1</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="fas fa-mobile"></i></span>
+                          <span class="input-group-text bg-dark"><i class="fas fa-mobile"></i></span>
                         </div>
                         <input type="number" 
                           class="form-control form-control-sm @error('telefone_1') is-invalid @enderror"  
@@ -297,7 +271,7 @@
                       <label for="inputTelefone2">Telefone 2</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="fas fa-tty"></i></span>
+                          <span class="input-group-text bg-dark"><i class="fas fa-tty"></i></span>
                         </div>
                         <input type="number" 
                                 class="form-control form-control-sm @error('telefone_2') is-invalid @enderror"  
@@ -317,7 +291,7 @@
                       <label for="inputGenero">Genero</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="fa fa-user"></i></span>
+                          <span class="input-group-text bg-dark"><i class="fa fa-user"></i></span>
                         </div>
                         <select 
                               class="form-control form-control-sm @error('genero') is-invalid @enderror" 
@@ -339,7 +313,7 @@
                       <label for="inputEndereco">Endereço</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="fa fa-street-view"></i></span>
+                          <span class="input-group-text bg-dark"><i class="fa fa-street-view"></i></span>
                         </div>
                         <input type="text" 
                                 class="form-control form-control-sm @error('endereco') is-invalid @enderror"
@@ -359,7 +333,7 @@
                       <label for="inputBanco">Banco</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="fa fa-university"></i></span>
+                          <span class="input-group-text bg-dark"><i class="fa fa-university"></i></span>
                         </div>
                         <input type="text" 
                                 class="form-control form-control-sm @error('banco') is-invalid @enderror"  
@@ -377,7 +351,7 @@
                       <label for="inputConta">Número da conta</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="fa fa-credit-card"></i></span>
+                          <span class="input-group-text bg-dark"><i class="fa fa-credit-card"></i></span>
                         </div>
                         <input type="number" 
                                 class="form-control form-control-sm @error('conta') is-invalid @enderror"  
@@ -397,7 +371,7 @@
                       <label for="inputObservacao">Observação</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text btnLogin text-white"><i class="fas fa-info"></i></span>
+                          <span class="input-group-text bg-dark"><i class="fas fa-info"></i></span>
                         </div>
                         <input type="text" 
                                 class="form-control form-control-sm @error('observacao') is-invalid @enderror"  
@@ -418,7 +392,7 @@
                   <div class="row d-flex justify-content-around">
                     <div class="col-4">
                       <div class="form-group mb-0">
-                      <button type="submit" class="btn btnLogin text-white">Registar <i class="fa fa-user-plus" aria-hidden="true"></i></button>
+                      <button type="submit" class="btn bg-dark">Registar <i class="fa fa-user-plus" aria-hidden="true"></i></button>
                       </div>
                     </div>
                     <div class="col-4">

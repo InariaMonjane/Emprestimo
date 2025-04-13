@@ -17,13 +17,11 @@ class CreateEmprestimosTable extends Migration
             $table->id();
             $table->unsignedBigInteger('cliente_id');
             $table->unsignedBigInteger('user_id');
+            $table->integer('referencia');
             $table->double('emprestimo', 8, 2);
             $table->integer('prestacoes');
             $table->float('taxa', 8, 2);
             $table->integer('dias');
-            $table->string('garantias');
-            $table->date('dataAquisicao');
-            $table->double('precoAvaliado', 8, 2);
             $table->enum('situacao', ['Pendente', 'Andamento', 'Pago']);
             $table->foreign('cliente_id')            
                 ->references('id')

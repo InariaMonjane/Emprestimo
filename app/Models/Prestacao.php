@@ -10,7 +10,19 @@ use DateTimeZone;
 class Prestacao extends Model
 {
     use HasFactory;
-    public function getAtrasoAttribute(){ 
+
+    public function emprestimo()
+    {
+        return $this->belongsTo(Emprestimo::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function getAtrasoAttribute()
+    { 
         $now = new DateTime("now", new DateTimeZone("Africa/Harare"));
         $prestacao = Prestacao::find($this->attributes['id']);
         $dataPrevista = new DateTime($prestacao->dataPrevista, new DateTimeZone("Africa/Harare"));
@@ -25,7 +37,8 @@ class Prestacao extends Model
         }   
     }
     
-    public function getMultaAttribute(){
+    public function getMultaAttribute()
+    {
         if($this->getAtrasoAttribute() <= 0){
             return 0;
         }else{

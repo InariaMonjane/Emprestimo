@@ -7,7 +7,7 @@
   <div class="card rounded-0 container-fluid">
     <div class="card-footer row">
       <div class="col-7 text-right"><span class="font-weight-bold"><?php if(isset($colaborador)): ?> Atualizar <?php echo e($colaborador->login->name); ?> <?php else: ?> Lista dos colaboradores <?php endif; ?></span></div>
-      <div class="col-5 text-right"><span class="font-weight-bold">Data : </span><?php echo date('d-m-Y') ?></div>
+      <div class="col-5 text-right"><span class="font-weight-bold">Data : </span><?php echo e(date('d-m-Y')); ?></div>
     </div>
   </div>
 
@@ -25,24 +25,6 @@
                 </div>
               </div>
               <div class="card-body py-2">
-                
-                <?php if(Session::has('EmailExiste')): ?>
-                <div class="alert alert-danger mt-2 mx-3" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                  <p class="m-0 text-center"><?php echo e(Session::get('EmailExiste')); ?></p>
-                </div>
-                <?php endif; ?>
-                
-                <?php if(Session::has('DBSuccess')): ?>
-                <div class="alert alert-success mt-2 mx-3" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                  <p class="m-0 text-center"><?php echo e(Session::get('DBSuccess')); ?></p>
-                </div>
-                <?php endif; ?>
                 <form action="<?php echo e((isset($colaborador)) ? '/Admin/Usuarios/colaborador/atualizar/'.$colaborador->id:route('colaborador.store')); ?>" method="post" enctype="multipart/form-data">
                   <?php echo e(csrf_field()); ?> 
                   <div class="form-row">
@@ -50,7 +32,7 @@
                       <label for="inlineFormInputGroup">E-mail</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <div class="input-group-text btnLogin text-white">
+                          <div class="input-group-text bg-dark">
                             <i class="fa fa-envelope" aria-hidden="true"></i>
                           </div>
                         </div>
@@ -78,7 +60,7 @@ unset($__errorArgs, $__bag); ?>
                     <label for="inlineFormInputGroup">Sucursal</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <div class="input-group-text btnLogin text-white">
+                          <div class="input-group-text bg-dark">
                             <i class="fa fa-home" aria-hidden="true"></i>
                           </div>
                         </div>
@@ -117,7 +99,7 @@ unset($__errorArgs, $__bag); ?>
                       <label for="inlineFormInputGroup">Nome</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <div class="input-group-text btnLogin text-white">
+                          <div class="input-group-text bg-dark">
                             <i class="fa fa-user" aria-hidden="true"></i>
                           </div>  
                         </div>
@@ -145,7 +127,7 @@ unset($__errorArgs, $__bag); ?>
                       <label for="inlineFormInputGroup">Apelido</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <div class="input-group-text btnLogin text-white">
+                          <div class="input-group-text bg-dark">
                             <i class="fa fa-user" aria-hidden="true"></i>
                           </div>  
                         </div>
@@ -213,7 +195,7 @@ unset($__errorArgs, $__bag); ?>
                       <th style="width: 14%">Nome</th>
                       <th style="width: 14%">Apelido</th>
                       <th style="width: 25%">Email</th>
-                      <th style="width: 20%">Filiação</th>
+                      <th style="width: 20%">Sucursal</th>
                       <th style="width: 10%"></th>
                       <th style="width: 10%"></th>
                     </tr>

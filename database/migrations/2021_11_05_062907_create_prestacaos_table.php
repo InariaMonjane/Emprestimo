@@ -16,6 +16,7 @@ class CreatePrestacaosTable extends Migration
         Schema::create('prestacaos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('emprestimo_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->integer('numero');
             $table->double('capital', 8, 2);
             $table->float('taxa', 8, 2);
@@ -25,6 +26,7 @@ class CreatePrestacaosTable extends Migration
             $table->double('opcao2', 8, 2);
             $table->date('dataPrevista');
             $table->enum('estado', ['Pendente', 'Pago']);
+            $table->double('vMulta', 8, 2)->default(0.00);
             $table->date('dataPagamento')->nullable();
             $table->timestamps();
             $table->foreign('emprestimo_id')
@@ -32,6 +34,11 @@ class CreatePrestacaosTable extends Migration
                 ->on('emprestimos')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');    
         });
     }
 

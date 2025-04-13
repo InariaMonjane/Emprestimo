@@ -15,10 +15,16 @@ class CreatePresencasTable extends Migration
     {
         Schema::create('presencas', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id');
-            $table->string('observacao');
+            $table->unsignedBigInteger('user_id');
+            $table->string('observacao')->nullable();
             $table->enum('estado', ['Entrada', 'Saída']);
             $table->timestamps();
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
     }
 

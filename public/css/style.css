@@ -9,3 +9,20 @@
 .forgetPassword{
     color: #8e3df1;
 }
+
+
+.fontIcons{
+    font-size: 11px;
+    color: black;
+}
+
+.colaboradorInfo{
+    background-color: #fff;
+}
+.list-user-header{
+    list-style: none;
+    text-align: center;
+}
+.list-user-header img{
+    width: 100px;
+}

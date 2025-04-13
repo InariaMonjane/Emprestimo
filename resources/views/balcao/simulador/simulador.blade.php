@@ -1,28 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- Header -->
-<section class="content-header py-2">
-  <div class="container-fluid">
-    <div class="row mb-0">
-      <div class="col-sm-6">
-        <h3>Simular Emprestimo</h3>
-      </div>
+<div class="card rounded-0 container-fluid">
+    <div class="card-footer row">
+        <div class="col-6 col-md-7 text-right"><span class="font-weight-bold">Simular Emprestimo</span></div>
+        <div class="col-6 col-md-5 text-right"><span class="font-weight-bold">Data : </span>{{ date('d-m-Y') }}</div>
     </div>
-  </div><!-- /.Header -->
-</section>
-<!-- Main -->
+</div>
 <div class="container-fluid">
     <div class="row">
-        <!-- left column -->
         <div class="col-12 col-md-4">
-            <!-- general form elements -->
             <div class="card card-dark">
                 <div class="card-header">
                     <h3 class="card-title"><i class="fa fa-desktop" aria-hidden="true"></i> Simulador</h3>
                 </div>
                 <form name="formSimulador">
-                    <!--@csrf-->
                     {{ csrf_field() }}
                     <div class="card-body">
 

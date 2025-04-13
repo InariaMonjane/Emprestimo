@@ -16,6 +16,7 @@ class CreateFiliacaosTable extends Migration
         Schema::create('filiacaos', function (Blueprint $table) {
             $table->id();
             $table->string('localizacao');
+            $table->double('saldo', 8, 2)->default(0.00);
             $table->timestamps();
         });
     }

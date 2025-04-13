@@ -14,9 +14,10 @@ class ClienteController extends Controller
         $clientes = Cliente::all()->sortByDesc('id');
         return view('entidade.index', compact('clientes'));
     }
+    
     public function create()
     {
-        return view('entidade.create');
+        return view('balcao.entidade.create');
     }
 
     public function store(Request $request)
@@ -33,13 +34,10 @@ class ClienteController extends Controller
             'validade' => ['required', 'date'],
             'bi' => ['required', 'size:13'],
             'nuit' => ['required', 'digits:9'],
-            'telefone_1' => ['required', 'digits:9'],
+            'telefone_1' => ['required'],
             'telefone_2' => ['required_unless:telefone1,null'],
             'genero' => ['required'],
             'endereco' => ['required'],
-            'banco' => ['required'],
-            'conta' => ['required'],
-            'observacao' => ['required'],
         ]);
         /* verficar se o Cliente já possui Conta */
         $find = Cliente::where('email', $request->email)->first();
@@ -75,7 +73,9 @@ class ClienteController extends Controller
         }
         
     }
-    public function getDataClient(Request $request){
+
+    public function getDataClient(Request $request)
+    {
         $cliente = Cliente::find($request->cliente);
         if($cliente){
             $data['success'] = true;
@@ -84,7 +84,7 @@ class ClienteController extends Controller
                 'bi' => $cliente->bi,
                 'nome' => $cliente->nome,
                 'apelido' => $cliente->apelido,
-                'referencia' => $cliente->emprestimos()->get()->count(),
+                'referencia' => ($cliente->emprestimos()->get()->count()+1),
             ];
         }else{
             $data['success'] = false;

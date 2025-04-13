@@ -19,6 +19,5 @@ class DatabaseSeeder extends Seeder
             FiliacaoSeeder::class,
             ColaboradorSeeder::class,
         ]);
-        // \App\Models\User::factory(10)->create();
     }
 }

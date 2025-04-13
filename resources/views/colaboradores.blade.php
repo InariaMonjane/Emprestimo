@@ -7,7 +7,7 @@
   <div class="card rounded-0 container-fluid">
     <div class="card-footer row">
       <div class="col-7 text-right"><span class="font-weight-bold">@if(isset($colaborador)) Atualizar {{$colaborador->login->name}} @else Lista dos colaboradores @endif</span></div>
-      <div class="col-5 text-right"><span class="font-weight-bold">Data : </span>@php echo date('d-m-Y') @endphp</div>
+      <div class="col-5 text-right"><span class="font-weight-bold">Data : </span>{{ date('d-m-Y') }}</div>
     </div>
   </div>
 
@@ -25,24 +25,6 @@
                 </div>
               </div>
               <div class="card-body py-2">
-                {{-- Data Base --}}
-                @if(Session::has('EmailExiste'))
-                <div class="alert alert-danger mt-2 mx-3" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                  <p class="m-0 text-center">{{ Session::get('EmailExiste') }}</p>
-                </div>
-                @endif
-                {{-- Data Base --}}
-                @if(Session::has('DBSuccess'))
-                <div class="alert alert-success mt-2 mx-3" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                  <p class="m-0 text-center">{{ Session::get('DBSuccess') }}</p>
-                </div>
-                @endif
                 <form action="{{(isset($colaborador)) ? '/Admin/Usuarios/colaborador/atualizar/'.$colaborador->id:route('colaborador.store')}}" method="post" enctype="multipart/form-data">
                   {{ csrf_field() }} 
                   <div class="form-row">
@@ -50,7 +32,7 @@
                       <label for="inlineFormInputGroup">E-mail</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <div class="input-group-text btnLogin text-white">
+                          <div class="input-group-text bg-dark">
                             <i class="fa fa-envelope" aria-hidden="true"></i>
                           </div>
                         </div>
@@ -64,7 +46,7 @@
                     <label for="inlineFormInputGroup">Sucursal</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <div class="input-group-text btnLogin text-white">
+                          <div class="input-group-text bg-dark">
                             <i class="fa fa-home" aria-hidden="true"></i>
                           </div>
                         </div>
@@ -89,7 +71,7 @@
                       <label for="inlineFormInputGroup">Nome</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <div class="input-group-text btnLogin text-white">
+                          <div class="input-group-text bg-dark">
                             <i class="fa fa-user" aria-hidden="true"></i>
                           </div>  
                         </div>
@@ -103,7 +85,7 @@
                       <label for="inlineFormInputGroup">Apelido</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
-                          <div class="input-group-text btnLogin text-white">
+                          <div class="input-group-text bg-dark">
                             <i class="fa fa-user" aria-hidden="true"></i>
                           </div>  
                         </div>
@@ -157,7 +139,7 @@
                       <th style="width: 14%">Nome</th>
                       <th style="width: 14%">Apelido</th>
                       <th style="width: 25%">Email</th>
-                      <th style="width: 20%">Filiação</th>
+                      <th style="width: 20%">Sucursal</th>
                       <th style="width: 10%"></th>
                       <th style="width: 10%"></th>
                     </tr>

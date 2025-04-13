@@ -31,9 +31,9 @@ class CreateClientesTable extends Migration
             $table->integer('telefone2')->nullable();
             $table->enum('genero', ['Masculino', 'Feminino']);
             $table->string('endereco');
-            $table->string('banco');
-            $table->string('numeroconta');
-            $table->longText('observacao');
+            $table->string('banco')->nullable();
+            $table->string('numeroconta')->nullable();
+            $table->longText('observacao')->nullable();
             $table->foreign('user_id')
                     ->references('id')
                     ->on('users')

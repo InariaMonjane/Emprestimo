@@ -5,13 +5,8 @@
   <div class="card rounded-0 container-fluid">
     <div class="card-footer row">
       <div class="col-7 text-right"><span class="font-weight-bold">Sucursais</span></div>
-      <div class="col-5 text-right"><span class="font-weight-bold">Data : </span><?php echo date('d-m-Y') ?></div>
+      <div class="col-5 text-right"><span class="font-weight-bold">Data : </span><?php echo e(date('d-m-Y')); ?></div>
     </div>
-    <!--div class="row">
-        <div class="col-12 text-center">
-            <p class="font-weight-bold py-2 m-0">Atenção!!! Existe <span class="text-danger">MULTA</span> por pagar!!!</p>
-        </div>
-    </div-->
   </div>
 
   <div class="content-header py-2">
@@ -26,30 +21,6 @@
               </h3>
             </div>
             <div class="card-body">
-              
-              <?php if(Session::has('DBError')): ?>
-                <div class="alert alert-danger mb-1 py-1 px-1 font-weight-light text-black">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                  <p class="m-0 text-center">
-                    <?php echo e(Session::get('DBError')); ?>
-
-                  </p>
-                </div>
-              <?php endif; ?>
-              
-              <?php if(Session::has('DBSuccess')): ?>
-                <div class="alert alert-success mb-1 py-1 px-1 font-weight-light text-black">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                  <p class="m-0 text-center">
-                    <?php echo e(Session::get('DBSuccess')); ?>
-
-                  </p>
-                </div>
-              <?php endif; ?>
               <form action="<?php echo e((isset($filiacao)) ? '/Admin/Filiacao/atualizar/'.$filiacao->id:route('filiacao.store')); ?>" method="post" enctype="multipart/form-data">
                 <?php echo e(csrf_field()); ?> 
                 <div class="form-row">
@@ -57,7 +28,7 @@
                   <label for="inputNome">Localização</label>
                     <div class="input-group">
                       <div class="input-group-prepend">
-                        <div class="input-group-text  btnLogin text-white">
+                        <div class="input-group-text  bg-dark">
                           <i class="fa fa-home" aria-hidden="true"></i>
                         </div>  
                       </div>

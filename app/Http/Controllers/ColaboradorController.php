@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Colaborador;
 use App\Models\Filiacao;
 use App\Models\User;
@@ -46,5 +47,27 @@ class ColaboradorController extends Controller
         $colaborador->save();
         $success = $request->nome.' registado com sucesso!';
         return redirect()->back()->with('DBSuccess', $success);
+    }
+
+    public function showChangePassword(){
+        return view('changePassword');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'senha' => 'required',
+            'nova_senha' => 'required|between:8,12',
+            'confirmar_nova_senha' => 'required|same:nova_senha',
+        ]);
+        
+        if(!Hash::check($request->senha, Auth::user()->password)){
+            return redirect()->back()->with('DBError', 'senha atual incorrecta!');
+        }
+
+        $user = User::find(Auth::user()->id);
+        $user->password = Hash::make($request->nova_senha);
+        $user->update();
+        return redirect()->back()->with('DBSuccess', 'senha alterada com sucesso!');
     }
 }

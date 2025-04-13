@@ -1,16 +1,12 @@
 
 
 <?php $__env->startSection('content'); ?>
-<section class="content-header py-2">
-    <div class="container-fluid">
-        <div class="row mb-0">
-            <div class="col-sm-6">
-                <h5 class="mb-0">Extrato de Entidades</h5>
-            </div>
-        </div>
+<div class="card rounded-0 container-fluid">
+    <div class="card-footer row">
+        <div class="col-6 col-md-7 text-right"><span class="font-weight-bold">Extrato de Entidades</span></div>
+        <div class="col-6 col-md-5 text-right"><span class="font-weight-bold">Data : </span><?php echo e(date('d-m-Y')); ?></div>
     </div>
-</section>
-
+</div>  
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
@@ -24,7 +20,7 @@
                         <div class="input-group input-group-sm" style="width: 100%">
                             <input class="form-control" id="search" type="search" placeholder="Pesquisar cliente..." aria-label="Search"  autocomplete="off">
                             <div class="input-group-append">
-                                <button class="btn btnLogin text-white" type="submit"><i class="fa fa-search"></i></button>
+                                <button class="btn bg-dark" type="submit"><i class="fa fa-search"></i></button>
                             </div>
                         </div>
                     </form>

@@ -1,15 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-<section class="content-header py-2">
-  <div class="container-fluid">
-    <div class="row mb-0">
-      <div class="col-sm-6">
-        <h3>Abertura de conta</h3>
-      </div>
-    </div>
+
+<div class="card rounded-0 container-fluid">
+  <div class="card-footer row">
+    <div class="col-6 col-md-7 text-right"><span class="font-weight-bold">Abertura de conta</span></div>
+    <div class="col-6 col-md-5 text-right"><span class="font-weight-bold">Data : </span>{{ date('d-m-Y') }}</div>
   </div>
-</section>
+</div>
+
 <div class="container-fluid">
   <div class="row">
     <div class="col-12">
@@ -17,27 +16,9 @@
         <div class="card-header">
           <h3 class="card-title"><i class="fa fa-desktop" aria-hidden="true"></i> Dados da conta</h3>
         </div>
-        {{-- Data Base --}}
-        @if(Session::has('DBError'))
-        <div class="alert alert-danger mt-2 mx-3" role="alert">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <p class="m-0 text-center">{{ Session::get('DBError') }}</p>
-        </div>
-        @endif
-        {{-- Data Base --}}
-        @if(Session::has('DBSuccess'))
-        <div class="alert alert-success mt-2 mx-3" role="alert">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <p class="m-0 text-center">{{ Session::get('DBSuccess') }}</p>
-        </div>
-        @endif
         <form role="form" method="post" action="{{ route('emprestimo.store') }}">
           @csrf
-          <div class="card-body">
+          <div class="card-body pb-0">
             <div class="row">
               <div class="form-group col-6 col-md-3 mb-1">
                 <label for="inputNumero">Nº. Cliente</label>
@@ -83,7 +64,7 @@
                       autocomplete="off"
                       id="inputReferencia"
                       disabled>
-                      <input type="hidden" name="referencia" value="{{ $cliente['id'] }}">
+                      <input type="hidden" name="referencia" value="{{ $cliente->emprestimos()->get()->count() }}">
                   @else
                     <input class="form-control form-control-sm @error('referencia') is-invalid @enderror"
                       placeholder="Nº referencia"
@@ -92,6 +73,7 @@
                       autocomplete="off"
                       id="inputReferencia"
                       disabled>
+                      <input type="hidden" name="referencia">
                   @endif
                   @error('referencia')
                   <span class="error invalid-feedback">{{ $message }}</span>
@@ -116,7 +98,9 @@
                     <span class="error invalid-feedback">{{ $message }}</span>
                   @enderror
                 </div>
-              </div>
+              </div>              
+            </div>
+            <div class="row">
               <div class="form-group col-12 col-md-6 mb-1">
                 <label for="inputNome">Nome</label>
                 <div class="input-group">
@@ -148,13 +132,14 @@
                   <span class="error invalid-feedback">{{ $message }}</span>
                   @enderror
                 </div>
-              </div>
-
-              <div class="form-group col-12 col-md-4 mb-1">
+              </div>              
+            </div>
+            <div class="row">
+              <div class="form-group col-12 col-md-4">
                 <label for="inputEmprestimo">Valor solicitado</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <span class="input-group-text btnLogin text-white"><i class="fas fa-dollar-sign"></i></span>
+                    <span class="input-group-text bg-dark"><i class="fas fa-dollar-sign"></i></span>
                   </div>
                   <input type="number"
                     class="form-control form-control-sm @error('emprestimo') is-invalid @enderror inputForm"
@@ -165,12 +150,11 @@
                   @enderror
                 </div>
               </div>
-              
-              <div class="form-group col-12 col-md-4 mb-1">
+              <div class="form-group col-12 col-md-4">
                 <label for="inputPrestacoes">Nº Prestações</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <span class="input-group-text btnLogin text-white"><i class="fa fa-plus"></i></span>
+                    <span class="input-group-text bg-dark"><i class="fa fa-plus"></i></span>
                   </div>
                   <input type="number"
                     class="form-control form-control-sm @error('prestacoes') is-invalid @enderror inputForm"
@@ -181,12 +165,11 @@
                   @enderror
                 </div>
               </div>
-              
-              <div class="form-group col-12 col-md-2 mb-1">
+              <div class="form-group col-12 col-md-2">
                 <label for="inputTaxa">Taxa</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <span class="input-group-text btnLogin text-white"><i class="fa fa-percent"></i></span>
+                    <span class="input-group-text bg-dark"><i class="fa fa-percent"></i></span>
                   </div>
                   <input type="number"
                     class="form-control form-control-sm @error('taxa') is-invalid @enderror inputForm"
@@ -197,11 +180,11 @@
                   @enderror
                 </div>
               </div>
-              <div class="form-group col-12 col-md-2 mb-1">
+              <div class="form-group col-12 col-md-2">
                 <label for="inputDias">Dias</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <span class="input-group-text btnLogin text-white"><i class="fa fa-calendar-check"></i></span>
+                    <span class="input-group-text bg-dark"><i class="fa fa-calendar-check"></i></span>
                   </div>
                   <input type="number"
                     class="form-control form-control-sm @error('dias') is-invalid @enderror inputForm"
@@ -211,72 +194,43 @@
                   <span class="error invalid-feedback">{{ $message }}</span>
                   @enderror
                 </div>
-              </div>
-              <div class="form-group col-12 col-md-6 mb-1">
-                <label for="inputGarantias">Garantias</label>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text btnLogin text-white"><i class="fa fa-building"></i></span>
+              </div>            
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-6 input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text bg-white font-weight-bold">Quantidade das Garantias</span>
                   </div>
-                  <input type="text"
-                    class="form-control form-control-sm @error('garantias') is-invalid @enderror"
-                    id="inputGarantias" placeholder="Garantias" name="garantias" value="{{ old('garantias') }}"
-                    autocomplete="off">
-                  @error('garantias')
-                  <span class="error invalid-feedback">{{ $message }}</span>
-                  @enderror
-                </div>
-              </div>
-              <div class="form-group col-12 col-md-3 mb-1">
-                <label for="inputAquisicao">Data de aquisição</label>
-                <div class="input-group">
-                  <!--div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fa fa-user"></i></span>
-                  </div-->
-                  <input type="date"
-                    class="form-control form-control-sm @error('aquisicao') is-invalid @enderror"
-                    id="inputAquisicao" placeholder="Data de aquisição" name="aquisicao"
-                    value="{{ old('aquisicao') }}" autocomplete="off">
-                  @error('aquisicao')
-                  <span class="error invalid-feedback">{{ $message }}</span>
-                  @enderror
-                </div>
-              </div>
-              <div class="form-group col-12 col-md-3 mb-1">
-                <label for="inputPreco">Preço avaliado</label>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text btnLogin text-white"><i class="fas fa-dollar-sign"></i></span>
-                  </div>
-                  <input type="number"
-                    class="form-control form-control-sm @error('preco') is-invalid @enderror"
-                    id="inputPreco" placeholder="Preço avaliado" name="preco"
-                    value="{{ old('preco') }}" autocomplete="off">
-                  @error('preco')
-                  <span class="error invalid-feedback">{{ $message }}</span>
-                  @enderror
+                <input type="number" class="form-control form-control-sm"
+                      placeholder="" name="inputGarantias"
+                      autocomplete="off">
+                <div class="input-group-append">
+                  <button class="btn btn-dark" id="btnGarantias" type="button">Criar tabela</button>
                 </div>
               </div>
             </div>
+            <div class="table-responsive" style="max-height: 300px;">
+              <table class="table table-sm table-hover table-head-fixed projects text-nowrap">
+                <tbody id="tableGarantias" class="table-bordered"></tbody>
+              </table>            
+            </div>
+            <div class="table-responsive" style="max-height: 300px;">
+              <table class="table table-sm table-hover table-head-fixed projects text-nowrap">
+                <thead>
+                  <tr>
+                    <th style="width: 14%">Capital</th>
+                    <th style="width: 10%">Taxa</th>
+                    <th style="width: 14%">Juros</th>
+                    <th style="width: 10%">Capital</th>
+                    <th style="width: 14%">1ª opção</th>
+                    <th style="width: 14%">2ª opção</th>
+                    <th style="width: 14%" class="">Data</th>
+                  </tr>
+                </thead>
+                <tbody id="linhas" class="table-bordered"></tbody>
+              </table>            
+            </div>
           </div>
-
-          <div class="card-body table-responsive pt-0">
-            <table class="table table-sm table-hover table-head-fixed projects text-nowrap">
-              <thead>
-                <tr>
-                  <th style="width: 14%">Capital</th>
-                  <th style="width: 10%">Taxa</th>
-                  <th style="width: 14%">Juros</th>
-                  <th style="width: 10%">Capital</th>
-                  <th style="width: 14%">1ª opção</th>
-                  <th style="width: 14%">2ª opção</th>
-                  <th style="width: 14%" class="">Data</th>
-                </tr>
-              </thead>
-              <tbody id="linhas" class="table-bordered"></tbody>
-            </table>
-          </div>
-
           <div class="card-footer">
             <div class="row d-flex justify-content-around">
               <div class="col-4">
