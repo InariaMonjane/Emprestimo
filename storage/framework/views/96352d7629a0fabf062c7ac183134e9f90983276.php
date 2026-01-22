@@ -1,10 +1,8 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="card rounded-0 container-fluid">
     <div class="card-footer row">
         <div class="col-6 col-md-7 text-right"><span class="font-weight-bold">Simular Emprestimo</span></div>
-        <div class="col-6 col-md-5 text-right"><span class="font-weight-bold">Data : </span>{{ date('d-m-Y') }}</div>
+        <div class="col-6 col-md-5 text-right"><span class="font-weight-bold">Data : </span><?php echo e(date('d-m-Y')); ?></div>
     </div>
 </div>
 <div class="container-fluid">
@@ -15,7 +13,8 @@
                     <h3 class="card-title"><i class="fa fa-desktop" aria-hidden="true"></i> Simulador</h3>
                 </div>
                 <form name="formSimulador">
-                    {{ csrf_field() }}
+                    <?php echo e(csrf_field()); ?>
+
                     <div class="card-body">
 
                         <div class="row">
@@ -100,11 +99,11 @@
                               <th style="width: 10%">Taxa</th>
                               <th style="width: 14%">de Juros</th>
                               <th style="width: 10%">do Capital</th>
-                              <th style="width: 20%">Única modalidade</th>
+                              <th style="width: 20%">Valor a pagar</th>
                               <!-- CÓDIGO ANTIGO COMENTADO PARA USO FUTURO -->
                               <!-- <th style="width: 14%">1ª opção</th> -->
                               <!-- <th style="width: 14%">2ª opção</th> -->
-                              <th style="width: 14%" class="text-center">Data</th>
+                              <th style="width: 14%" class="text-center">Pagamento</th>
                             </tr>
                         </thead>
                         <tbody id="linhas">
@@ -116,4 +115,5 @@
         </div>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/apple/Documents/Code2025/Emprestimo/resources/views/balcao/simulador/simulador.blade.php ENDPATH**/ ?>

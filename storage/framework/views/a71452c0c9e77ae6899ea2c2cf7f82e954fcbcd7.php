@@ -2,20 +2,20 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>{{ config('app.name') }}</title>
+        <title><?php echo e(config('app.name')); ?></title>
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
-        <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+        <link href="<?php echo e(mix('css/app.css')); ?>" rel="stylesheet">
         <!-- Font Awesome Icons -->
-        <link rel="stylesheet" href="{{ asset('fontawesome/css/all.min.css') }}">
+        <link rel="stylesheet" href="<?php echo e(asset('fontawesome/css/all.min.css')); ?>">
         <!-- Costum CSS-->
-        <link rel="stylesheet" href="{{ asset('css/style.css')}}">
+        <link rel="stylesheet" href="<?php echo e(asset('css/style.css')); ?>">
         <!-- Toastr -->
-        <link rel="stylesheet" href="{{ asset('css/toastr.min.css') }}">
+        <link rel="stylesheet" href="<?php echo e(asset('css/toastr.min.css')); ?>">
 
-        @yield('third_party_stylesheets')
+        <?php echo $__env->yieldContent('third_party_stylesheets'); ?>
 
-        @stack('page_css')
+        <?php echo $__env->yieldPushContent('page_css'); ?>
     </head>
 
     <body class="hold-transition sidebar-mini layout-fixed">
@@ -32,18 +32,19 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item dropdown user-menu">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                            <span class="d-none d-md-inline">{{ Auth::user()->nome }} {{ Auth::user()->apelido }}</span>
-                            <img src="{{ asset('img/user.png') }}" class="user-image img-circle elevation-2" alt="User Image">
+                            <span class="d-none d-md-inline"><?php echo e(Auth::user()->nome); ?> <?php echo e(Auth::user()->apelido); ?></span>
+                            <img src="<?php echo e(asset('img/user.png')); ?>" class="user-image img-circle elevation-2" alt="User Image">
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                             <!-- User image -->
                             <li class="user-header bg-primary">
-                                <img src="{{ asset('img/user.png') }}"
+                                <img src="<?php echo e(asset('img/user.png')); ?>"
                                     class="img-circle elevation-2"
                                     alt="User Image">
                                 <p>
-                                    {{ Auth::user()->nome }} {{ Auth::user()->apelido }}
-                                    <small>Membro desde {{ Auth::user()->created_at->format('M. Y') }}</small>
+                                    <?php echo e(Auth::user()->nome); ?> <?php echo e(Auth::user()->apelido); ?>
+
+                                    <small>Membro desde <?php echo e(Auth::user()->created_at->format('M. Y')); ?></small>
                                 </p>
                             </li>
                             <!-- Menu Footer-->
@@ -53,8 +54,8 @@
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     Sair
                                 </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
+                                <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" class="d-none">
+                                    <?php echo csrf_field(); ?>
                                 </form>
                             </li>
                         </ul>
@@ -63,38 +64,38 @@
             </nav>
 
             <!-- Left side column. contains the logo and sidebar -->
-        @include('layouts.sidebar')
+        <?php echo $__env->make('layouts.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
         <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 <section class="content px-0">
-                    @yield('content')
+                    <?php echo $__env->yieldContent('content'); ?>
                 </section>
             </div>
 
             <!-- Main Footer -->
             <footer class="main-footer text-center">
-                <p class="mb-0"><b>&copy; Financial System - {{ date('Y') }}</b></p>
+                <p class="mb-0"><b>&copy; Financial System - <?php echo e(date('Y')); ?></b></p>
                 <p class="mb-0">Todos os direitos reservados</p>
             </footer>
         </div>
 
-        <script src="{{ mix('js/app.js') }}" defer></script>
+        <script src="<?php echo e(mix('js/app.js')); ?>" defer></script>
 
-        @yield('third_party_scripts')
+        <?php echo $__env->yieldContent('third_party_scripts'); ?>
 
-        @stack('page_scripts')
-        <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
-        <script src="{{ asset('js/jquery.form.min.js') }}"></script>
-        <script src="{{ asset('js/modelspop.js') }}"></script>
-        <script src="{{ asset('js/Chart.min.js') }}"></script>
+        <?php echo $__env->yieldPushContent('page_scripts'); ?>
+        <script src="<?php echo e(asset('js/jquery-3.5.1.min.js')); ?>"></script>
+        <script src="<?php echo e(asset('js/jquery.form.min.js')); ?>"></script>
+        <script src="<?php echo e(asset('js/modelspop.js')); ?>"></script>
+        <script src="<?php echo e(asset('js/Chart.min.js')); ?>"></script>
         <script>
           $(function(){
               $('form[name="formSimulador"]').submit(function(event){
                   event.preventDefault();
                   let tabela;
                   $.ajax({
-                      url: "{{ route('simulador.start') }}",
+                      url: "<?php echo e(route('simulador.start')); ?>",
                       type: "post",
                       data: $(this).serialize(),
                       dataType: 'json',
@@ -152,7 +153,7 @@
                   if(emprestimo != '' && prestacoes != '' && taxa != '' && dias != ''){
                       let tabela;
                       $.ajax({
-                          url: "{{ route('simulador.start') }}",
+                          url: "<?php echo e(route('simulador.start')); ?>",
                           type: "post",
                           data: {emprestimo:emprestimo, prestacoes:prestacoes, taxa:taxa, dias:dias, _token:_token},
                           dataType: 'json',
@@ -236,7 +237,7 @@
                   let _token = $('input[name="_token"]').val();
                   if(cliente != ''){
                       $.ajax({
-                          url: "{{ route('simulador.getDataClient') }}",
+                          url: "<?php echo e(route('simulador.getDataClient')); ?>",
                           type: "post",
                           data: {cliente:cliente, _token:_token},
                           dataType: 'json',
@@ -261,7 +262,7 @@
                       let tabela;
                       let submenter;
                       $.ajax({
-                          url: "{{ route('emprestimo.getDataEmprestimo') }}",
+                          url: "<?php echo e(route('emprestimo.getDataEmprestimo')); ?>",
                           type: "post",
                           data: {conta:conta, taxa:taxa, _token:_token},
                           dataType: 'json',
@@ -336,7 +337,7 @@
         <script>
           $(function () {
             $.ajax({
-              url: "{{ route('grafico') }}",
+              url: "<?php echo e(route('grafico')); ?>",
               type: "get",
               dataType: 'json',
               success: function(response){
@@ -542,17 +543,17 @@
           })
         </script>
         <!-- Toastr -->
-        <script src="{{ asset('js/toastr.min.js') }}"></script>
-        @if(Session::has('DBSuccess'))
+        <script src="<?php echo e(asset('js/toastr.min.js')); ?>"></script>
+        <?php if(Session::has('DBSuccess')): ?>
         <script>
-          toastr.success("{!! Session::get('DBSuccess') !!}");
+          toastr.success("<?php echo Session::get('DBSuccess'); ?>");
         </script>
-        @endif
-        @if(Session::has('DBError'))
+        <?php endif; ?>
+        <?php if(Session::has('DBError')): ?>
         <script>
-          toastr.error("{!! Session::get('DBError') !!}");
+          toastr.error("<?php echo Session::get('DBError'); ?>");
         </script>
-        @endif
+        <?php endif; ?>
 
     </body>
-</html>
+</html><?php /**PATH /Users/apple/Documents/Code2025/Emprestimo/resources/views/layouts/app.blade.php ENDPATH**/ ?>

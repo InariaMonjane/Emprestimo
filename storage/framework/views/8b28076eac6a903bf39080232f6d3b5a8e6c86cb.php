@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
   <section class="content">
     <div class="container pt-3">
       <div class="row">
@@ -10,7 +8,7 @@
               <span class="info-box-icon  elevation-1"><i class="fas fa-user"></i></span>
               <div class="info-box-content">
                 <span class="info-box-text">Entidades</span>
-                <span class="info-box-number">Total: {{ $entidades}}</span>
+                <span class="info-box-number">Total: <?php echo e($entidades); ?></span>
               </div>
             </div>
           </a>  
@@ -21,7 +19,7 @@
               <span class="info-box-icon  elevation-1"><i class="fas fa-user-secret"></i></span>
               <div class="info-box-content">
                 <span class="info-box-text">Contas</span>
-                <span class="info-box-number">Total: {{ $contas}}</span>
+                <span class="info-box-number">Total: <?php echo e($contas); ?></span>
               </div>
             </div>
           </a>  
@@ -32,7 +30,7 @@
               <span class="info-box-icon  elevation-1"><i class="fas fa-child"></i></span>
               <div class="info-box-content">
                 <span class="info-box-text">Funcionarios</span>
-                <span class="info-box-number">Total: {{ $users }}</span>
+                <span class="info-box-number">Total: <?php echo e($users); ?></span>
               </div>
             </div>
           </a>
@@ -44,7 +42,7 @@
               <span class="info-box-icon  elevation-1"><i class="far fa-dot-circle"></i></span>
               <div class="info-box-content">
                 <span class="info-box-text">Saldo</span>
-                <span class="info-box-number">{{ Auth::user()->colaborador && Auth::user()->colaborador->filiacao ? number_format(Auth::user()->colaborador->filiacao->saldo, 2, ',', '.') : '0,00' }}MT</span>
+                <span class="info-box-number"><?php echo e(Auth::user()->colaborador && Auth::user()->colaborador->filiacao ? number_format(Auth::user()->colaborador->filiacao->saldo, 2, ',', '.') : '0,00'); ?>MT</span>
               </div>
             </div>
           </a>
@@ -106,4 +104,6 @@
     </div>
     
   </section>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/apple/Documents/Code2025/Emprestimo/resources/views/home.blade.php ENDPATH**/ ?>

@@ -84,34 +84,63 @@ class EmprestimoController extends Controller
         $TAXA = $request->taxa/100;
         $AMCAPITAL = $request->emprestimo/$request->prestacoes;
         $capital = $request->emprestimo;
-        $valorPagarInicial = 0;
+        
+        // NOVO CÁLCULO: Juros fixos baseados no valor total do empréstimo
+        // Se pediu 2000 a 15%, os juros serão 300 para todas as prestações
+        $JUROS_FIXOS = $request->emprestimo * $TAXA;
+        
+        // Valor único a pagar = juros fixos + amortização do capital
+        $VALOR_PAGAR_UNICO = $JUROS_FIXOS + $AMCAPITAL;
+        
         $totalJuros = 0;
         $DIAS = $request->dias;
         $emprestimo = [];
-        $dia = date("d");$mes = date("m");$ano = date("Y");
-        for ($i=1; $i <= $request->prestacoes; $i++) {
-            $juros = $capital*$TAXA;
-            $valorPrestacao = $juros + $AMCAPITAL;
-            
-            if($DIAS + $dia <= 30){
-                $dia = $DIAS + $dia;
-            }else{
-                if ($mes < 12) {
-                    $mes++;
-                    $dia = ($DIAS + $dia) - 30;
-                }else{
-                    $ano++;
-                    $mes -= 11;
-                    $dia = ($DIAS + $dia) - 30;
-                }
-                if($dia < 10){
-                    $dia = '0'.$dia.'';
-                }
-                if($mes < 10){
-                    $mes = '0'.$mes.'';
-                }
+        
+        // NOVO: Calcula as datas mensalmente consecutivas
+        // O campo "dias" define o dia do mês para todas as prestações
+        $dataAtual = new \DateTime();
+        $hoje = new \DateTime();
+        
+        // Define o dia do mês (limita a 28 para evitar problemas com fevereiro)
+        $diaMes = min($DIAS, 28);
+        
+        // Primeira prestação: mês atual no dia especificado
+        $anoAtual = (int)$dataAtual->format('Y');
+        $mesAtual = (int)$dataAtual->format('m');
+        
+        // Verifica se o dia já passou neste mês
+        $diaHoje = (int)$hoje->format('d');
+        if ($diaHoje >= $diaMes) {
+            // Se o dia já passou, primeira prestação será no próximo mês
+            $mesAtual++;
+            if ($mesAtual > 12) {
+                $mesAtual = 1;
+                $anoAtual++;
             }
-            $dataPrevista  = $ano.'-'.$mes.'-'.$dia;
+        }
+        
+        // Define a data da primeira prestação
+        $ultimoDiaMes = (int)date('t', mktime(0, 0, 0, $mesAtual, 1, $anoAtual));
+        $diaFinal = min($diaMes, $ultimoDiaMes);
+        $dataAtual->setDate($anoAtual, $mesAtual, $diaFinal);
+        
+        for ($i=1; $i <= $request->prestacoes; $i++) {
+            // NOVO: Juros fixos para todas as prestações
+            $juros = $JUROS_FIXOS;
+            // NOVO: Valor único a pagar (mesmo para todas as prestações)
+            $valorPrestacao = $VALOR_PAGAR_UNICO;
+            
+            // NOVO: Para prestações seguintes, adiciona 1 mês (mensal consecutivo)
+            if ($i > 1) {
+                $dataAtual->modify('+1 month');
+                // Ajusta o dia se o mês não tiver esse dia (ex: 30 de fevereiro vira 28)
+                $ano = (int)$dataAtual->format('Y');
+                $mes = (int)$dataAtual->format('m');
+                $ultimoDiaMes = (int)date('t', mktime(0, 0, 0, $mes, 1, $ano));
+                $diaFinal = min($diaMes, $ultimoDiaMes);
+                $dataAtual->setDate($ano, $mes, $diaFinal);
+            }
+            $dataPrevista = $dataAtual->format('Y-m-d');
             $linha = [
                 'capital'   => round($capital,2),
                 'taxa'      => $TAXA,
@@ -122,10 +151,23 @@ class EmprestimoController extends Controller
             ];
             array_push($emprestimo, $linha);
             $capital -= $AMCAPITAL;
-            $valorPagarInicial += round($valorPrestacao,2);
             $totalJuros += round($juros,2);            
         }
-        $valorPagar = $valorPagarInicial/$request->prestacoes;
+        
+        // CÓDIGO ANTIGO COMENTADO PARA USO FUTURO
+        // $valorPagarInicial = 0;
+        // for ($i=1; $i <= $request->prestacoes; $i++) {
+        //     $juros = $capital*$TAXA;  // Juros decrescentes baseados no capital restante
+        //     $valorPrestacao = $juros + $AMCAPITAL;
+        //     $valorPagarInicial += round($valorPrestacao,2);
+        //     $capital -= $AMCAPITAL;
+        //     $totalJuros += round($juros,2);
+        //     // Adiciona os dias à data para calcular a data prevista de cada prestação
+        //     if ($i > 1) {
+        //         $dataAtual->modify('+' . $DIAS . ' days');
+        //     }
+        // }
+        // $valorPagar = $valorPagarInicial/$request->prestacoes;  // Média das prestações (2ª opção)
         //dd($emprestimo);
         for ($i=1; $i <= $request->prestacoes; $i++) {
             $prestacao = new Prestacao;
@@ -135,8 +177,11 @@ class EmprestimoController extends Controller
             $prestacao->taxa = $emprestimo[$i-1]['taxa'];
             $prestacao->juros = $emprestimo[$i-1]['juros'];
             $prestacao->AmCapital = $emprestimo[$i-1]['AmCapital'];
+            // NOVO: Valor único a pagar (mesma modalidade para todas)
             $prestacao->opcao1 = $emprestimo[$i-1]['valorPrestacao'];
-            $prestacao->opcao2 = round($valorPagar,2);
+            // CÓDIGO ANTIGO COMENTADO PARA USO FUTURO
+            // $prestacao->opcao2 = round($valorPagar,2);  // 2ª opção (média das prestações)
+            $prestacao->opcao2 = $emprestimo[$i-1]['valorPrestacao']; // Mesmo valor da opção 1
             $prestacao->dataPrevista = $emprestimo[$i-1]['dataPrevista'];
             $prestacao->estado = 'Pendente';
             $prestacao->save();
@@ -167,38 +212,64 @@ class EmprestimoController extends Controller
         $TAXA = $request->taxa/100;
         $AMCAPITAL = $request->emprestimo/$request->prestacoes;
         $capital = $request->emprestimo;
-        $valorPagarInicial = 0;
-        $totalJuros = 0;
         
+        // NOVO CÁLCULO: Juros fixos baseados no valor total do empréstimo
+        // Se pediu 2000 a 15%, os juros serão 300 para todas as prestações
+        $JUROS_FIXOS = $request->emprestimo * $TAXA;
+        
+        // Valor único a pagar = juros fixos + amortização do capital
+        $VALOR_PAGAR_UNICO = $JUROS_FIXOS + $AMCAPITAL;
+        
+        $totalJuros = 0;
         $DIAS = $request->dias;
         $emprestimo = [];
         
-        $dia = date("d");
-        $mes = date("m");
-        $ano = date("Y");
-        for ($i=1; $i <= $request->prestacoes; $i++) {
-            $juros = $capital*$TAXA;
-            $valorPrestacao = $juros + $AMCAPITAL;
-            
-            if($DIAS + $dia <= 30){
-                $dia = $DIAS + $dia;
-            }else{
-                if ($mes < 12) {
-                    $mes++;
-                    $dia = ($DIAS + $dia) - 30;
-                }else{
-                    $ano++;
-                    $mes -= 11;
-                    $dia = ($DIAS + $dia) - 30;
-                }
-                if($dia < 10){
-                    $dia = '0'.$dia.'';
-                }
-                if($mes < 10){
-                    $mes = '0'.$mes.'';
-                }
+        // NOVO: Calcula as datas mensalmente consecutivas
+        // O campo "dias" define o dia do mês para todas as prestações
+        // Exemplo: se dias = 30, as prestações serão no dia 30 de janeiro, fevereiro, março, etc.
+        $dataAtual = new \DateTime();
+        $hoje = new \DateTime();
+        
+        // Define o dia do mês (limita a 28 para evitar problemas com fevereiro)
+        $diaMes = min($DIAS, 28);
+        
+        // Primeira prestação: mês atual no dia especificado
+        $anoAtual = (int)$dataAtual->format('Y');
+        $mesAtual = (int)$dataAtual->format('m');
+        
+        // Verifica se o dia já passou neste mês
+        $diaHoje = (int)$hoje->format('d');
+        if ($diaHoje >= $diaMes) {
+            // Se o dia já passou, primeira prestação será no próximo mês
+            $mesAtual++;
+            if ($mesAtual > 12) {
+                $mesAtual = 1;
+                $anoAtual++;
             }
-            $dataPrevista  = $dia.'-'.$mes.'-'.$ano;
+        }
+        
+        // Define a data da primeira prestação
+        $ultimoDiaMes = (int)date('t', mktime(0, 0, 0, $mesAtual, 1, $anoAtual));
+        $diaFinal = min($diaMes, $ultimoDiaMes);
+        $dataAtual->setDate($anoAtual, $mesAtual, $diaFinal);
+        
+        for ($i=1; $i <= $request->prestacoes; $i++) {
+            // NOVO: Juros fixos para todas as prestações
+            $juros = $JUROS_FIXOS;
+            // NOVO: Valor único a pagar (mesmo para todas as prestações)
+            $valorPrestacao = $VALOR_PAGAR_UNICO;
+            
+            // NOVO: Para prestações seguintes, adiciona 1 mês (mensal consecutivo)
+            if ($i > 1) {
+                $dataAtual->modify('+1 month');
+                // Ajusta o dia se o mês não tiver esse dia (ex: 30 de fevereiro vira 28)
+                $ano = (int)$dataAtual->format('Y');
+                $mes = (int)$dataAtual->format('m');
+                $ultimoDiaMes = (int)date('t', mktime(0, 0, 0, $mes, 1, $ano));
+                $diaFinal = min($diaMes, $ultimoDiaMes);
+                $dataAtual->setDate($ano, $mes, $diaFinal);
+            }
+            $dataPrevista = $dataAtual->format('d-m-Y');
             $linha = [
                 'capital'   => round($capital,2),
                 'taxa'      => $TAXA,
@@ -209,16 +280,26 @@ class EmprestimoController extends Controller
             ];
             array_push($emprestimo, $linha);
             $capital -= $AMCAPITAL;
-            $valorPagarInicial += round($valorPrestacao,2);
             $totalJuros += round($juros,2);            
         }
-        $valorPagar = $valorPagarInicial/$request->prestacoes;
+        
+        // CÓDIGO ANTIGO COMENTADO PARA USO FUTURO
+        // $valorPagarInicial = 0;
+        // for ($i=1; $i <= $request->prestacoes; $i++) {
+        //     $juros = $capital*$TAXA;  // Juros decrescentes baseados no capital restante
+        //     $valorPrestacao = $juros + $AMCAPITAL;
+        //     $valorPagarInicial += round($valorPrestacao,2);
+        //     $capital -= $AMCAPITAL;
+        // }
+        // $valorPagar = $valorPagarInicial/$request->prestacoes;  // Média das prestações (2ª opção)
+        
         $data['success'] = true;
         $data['emprestimo'] = $emprestimo;
-        $data['valorPagar'] = round($valorPagar,2);
+        // NOVO: Valor único a pagar (mesma modalidade para todas)
+        $data['valorPagar'] = round($VALOR_PAGAR_UNICO,2);
         $data['totalJuros'] = $totalJuros;
         $data['totalCapital'] = $request->emprestimo;
-        $data['totalPagar'] = $request->prestacoes*round($valorPagar,2);
+        $data['totalPagar'] = $request->prestacoes * round($VALOR_PAGAR_UNICO,2);
         echo json_encode($data);
         return;                
     }

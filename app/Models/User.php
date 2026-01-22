@@ -50,6 +50,6 @@ class User extends Authenticatable
     //Relação user e Colaborador
     public function colaborador()
     {
-        return $this->belongsTo('App\Models\Colaborador', 'id', 'user_id');
+        return $this->hasOne('App\Models\Colaborador', 'user_id', 'id');
     }
 }

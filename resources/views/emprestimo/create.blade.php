@@ -222,8 +222,10 @@
                     <th style="width: 10%">Taxa</th>
                     <th style="width: 14%">Juros</th>
                     <th style="width: 10%">Capital</th>
-                    <th style="width: 14%">1ª opção</th>
-                    <th style="width: 14%">2ª opção</th>
+                    <th style="width: 14%">Única modalidade</th>
+                    <!-- CÓDIGO ANTIGO COMENTADO PARA USO FUTURO -->
+                    <!-- <th style="width: 14%">1ª opção</th> -->
+                    <!-- <th style="width: 14%">2ª opção</th> -->
                     <th style="width: 14%" class="">Data</th>
                   </tr>
                 </thead>
