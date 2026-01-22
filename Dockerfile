@@ -1,32 +1,28 @@
-# Dockerfile para Laravel
-FROM php:8.2-fpm
+# Imagem PHP com Apache
+FROM php:8.2-apache
 
-# Instala extensões PHP necessárias
+# Instalar extensões do Laravel
 RUN apt-get update && apt-get install -y \
-    libpq-dev \
+    libonig-dev \
     libzip-dev \
     unzip \
     git \
-    curl \
-    && docker-php-ext-install pdo pdo_pgsql zip
+    && docker-php-ext-install pdo_mysql mbstring zip
 
-# Instala Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+# Habilitar mod_rewrite do Apache
+RUN a2enmod rewrite
 
-# Copia código
+# Definir diretório de trabalho
 WORKDIR /var/www/html
+
+# Copiar todo o projeto para dentro do container
 COPY . .
 
-# Instala dependências do Laravel
-RUN composer install --no-dev --optimize-autoloader
+# Dar permissão às pastas storage e bootstrap/cache
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Permissões
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html/storage
-    
+# Expor porta padrão
+EXPOSE 8080
 
-# Porta para Render
-EXPOSE 10000
-
-# Start Laravel
-CMD php artisan serve --host=0.0.0.0 --port=10000
+# Comando para rodar o Apache
+CMD ["apache2-foreground"]
