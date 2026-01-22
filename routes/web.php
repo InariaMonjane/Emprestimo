@@ -22,6 +22,11 @@ use App\Http\Controllers\ContabilidadeController;
 |
 */
 
+Route::get('/healthz', function () {
+    return response()->json(['status' => 'ok']);
+});
+
+
 Route::group(['middleware' => ['auth']], function(){
     Route::get('/', [HomeController::class, 'index'])->name('home');
     
